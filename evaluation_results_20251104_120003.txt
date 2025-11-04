@@ -1,0 +1,18 @@
+================================================================================
+SmolVLA Policy Evaluation Results
+SmolVLA策略评估结果
+================================================================================
+
+Start Time | 开始时间: 2025-11-04 12:00:03
+End Time | 结束时间: 2025-11-04 12:21:51
+Duration | 总耗时: 1308.41s
+
+Total Episodes | 总回合数: 100
+Successful | 成功: 98
+Failed | 失败: 2
+Timeout | 超时: 2
+Success Rate | 成功率: 98.00%
+
+Average Duration | 平均耗时: 13.04s
+Average Steps | 平均步数: 133.7
+Average Steps (Success) | 成功平均步数: 130.1
