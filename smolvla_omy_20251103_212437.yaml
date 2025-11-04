@@ -1,0 +1,24 @@
+batch_size: 32
+dataset:
+  repo_id: omy_pnp_language
+  root: ./demo_data_language
+eval_freq: -1
+job_name: smolvla_omy4060
+log_freq: 50
+num_workers: 8
+output_dir: ckpt/smolvla_omy4060_20251103_212437
+policy:
+  chunk_size: 5
+  device: cuda
+  n_action_steps: 5
+  type: smolvla
+resume: false
+save_checkpoint: true
+save_freq: 2000
+seed: 42
+steps: 20000
+use_policy_training_preset: true
+wandb:
+  disable_artifact: true
+  enable: true
+  project: smolvla_omy4060
