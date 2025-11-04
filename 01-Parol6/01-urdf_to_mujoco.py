@@ -244,7 +244,7 @@ def convert_urdf_to_mujoco(urdf_file, output_file):
     xml_lines.append('</mujoco>')
     
     # 写入文件
-    output_content = ''.join(xml_lines)
+    output_content = '\n'.join(xml_lines)
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(output_content)
     

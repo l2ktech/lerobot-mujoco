@@ -27,18 +27,13 @@ class SimpleEnv2:
         self.env = MuJoCoParserClass(name='Tabletop',rel_xml_path=xml_path)
         self.action_type = action_type
         self.state_type = state_type
-        # self.joint_names = ['joint1',
-        #             'joint2',
-        #             'joint3',
-        #             'joint4',
-        #             'joint5',
-        #             'joint6',]
-        self.joint_names = ['L1',
-                    'L2',
-                    'L3',
-                    'L4',
-                    'L5',
-                    'L6',]
+        self.joint_names = ['joint1',
+                    'joint2',
+                    'joint3',
+                    'joint4',
+                    'joint5',
+                    'joint6',]
+  
         self.init_viewer()
         self.reset(seed)
 
