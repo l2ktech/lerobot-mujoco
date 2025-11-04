@@ -17,7 +17,7 @@ def test_model_loading():
     print("="*80)
     
     try:
-        model = mujoco.MjModel.from_xml_path('01-Parol6/parol6.xml')
+        model = mujoco.MjModel.from_xml_path('01-Parol6/parol6_full.xml')
         data = mujoco.MjData(model)
         
         print("✅ 模型加载成功!")
