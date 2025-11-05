@@ -1,78 +1,122 @@
 <?xml version="1.0"?>
-<!-- PAROL6完整版：原始场景 + 固定夹爪 -->
+<!-- PAROL6完整版: 原始场景 + 机械臂 + 夹爪 -->
 <mujoco model="parol6_full">
+
+    <!-- 内存配置 -->
     <size memory="500M"/>
+
+    <!-- 编译器配置 -->
     <compiler angle="radian" autolimits="true" eulerseq="xyz"/>
+
+    <!-- 物理引擎配置 -->
     <option integrator="RK4" noslip_iterations="20"/>
-    
+
+    <!-- 默认参数 -->
     <default>
         <joint armature="0.1" damping="0.1"/>
         <default class="visual_only">
             <geom type="mesh" contype="0" conaffinity="0" group="2"/>
         </default>
+        <default class="no_visual_collision">
+            <geom type="capsule" solimp=".9 .99 .001" solref=".015 1" group="3"/>
+        </default>
         <default class="visual_collision">
             <geom type="mesh" solimp=".9 .99 .001" solref=".015 1" group="2"/>
         </default>
     </default>
-    
-    <!-- 场景：天空、地面、桌子、物体 -->
+
+    <!-- 天空和地面 -->
     <include file="../asset/tabletop/object/floor_isaac_style.xml"/>
+
+    <!-- 桌子 -->
     <include file="../asset/tabletop/object/object_table.xml"/>
+
+    <!-- 物体 -->
     <include file="../asset/objaverse/mug_5/model_new.xml"/>
     <include file="../asset/objaverse/plate_11/model_new.xml"/>
     <include file="../asset/objaverse/mug_6/model_new.xml"/>
-    
-    <!-- 机械臂网格 -->
+
+    <!-- 机械臂资产 -->
     <asset>
-        <mesh name="base_link" file="01-Parol6/meshes/base_link.STL" scale="0.001 0.001 0.001"/>
-        <mesh name="l1" file="01-Parol6/meshes/L1.STL" scale="0.001 0.001 0.001"/>
-        <mesh name="l2" file="01-Parol6/meshes/L2.STL" scale="0.001 0.001 0.001"/>
-        <mesh name="l3" file="01-Parol6/meshes/L3.STL" scale="0.001 0.001 0.001"/>
-        <mesh name="l4" file="01-Parol6/meshes/L4.STL" scale="0.001 0.001 0.001"/>
-        <mesh name="l5" file="01-Parol6/meshes/L5.STL" scale="0.001 0.001 0.001"/>
-        <mesh name="l6" file="01-Parol6/meshes/L6.STL" scale="0.001 0.001 0.001"/>
+        <!-- 机械臂STL网格 -->
+        <mesh name="base_link" file="meshes/base_link.STL" scale="0.001 0.001 0.001"/>
+        <mesh name="l1" file="meshes/L1.STL" scale="0.001 0.001 0.001"/>
+        <mesh name="l2" file="meshes/L2.STL" scale="0.001 0.001 0.001"/>
+        <mesh name="l3" file="meshes/L3.STL" scale="0.001 0.001 0.001"/>
+        <mesh name="l4" file="meshes/L4.STL" scale="0.001 0.001 0.001"/>
+        <mesh name="l5" file="meshes/L5.STL" scale="0.001 0.001 0.001"/>
+        <mesh name="l6" file="meshes/L6.STL" scale="0.001 0.001 0.001"/>
+
+        <!-- 夹爪STL网格 -->
+        <mesh name="gripper_base" file="meshes/gripper_base.stl" scale="0.001 0.001 0.001"/>
+        <mesh name="gripper_jaw" file="meshes/gripper_jaw.stl" scale="0.001 0.001 0.001"/>
     </asset>
-    
-    <!-- PAROL6机械臂 -->
+
+    <!-- 机械臂 -->
     <worldbody>
+        <!-- PAROL6机械臂基座 -->
         <body name="base_link" pos="0.2 0 0.8">
-            <inertial pos="-0.0275 -0.0014 0.0312" mass="0.8127" diaginertia="0.001479 0.001107 0.001066"/>
+            <inertial pos="-0.0275 -0.0014 0.0312" mass="0.8127" diaginertia="0.001107 0.001066 0.001479"/>
             <geom type="mesh" mesh="base_link" rgba="0.75 0.75 0.75 1"/>
-            
+
+            <!-- 关节1: L1 -->
             <body name="L1" pos="0.0000 0.0000 0.0000" quat="1.0000 0.0000 0.0000 0.0000">
-                <inertial pos="0.0052 0.0290 0.0993" mass="0.6448" diaginertia="0.001295 0.001094 0.000570"/>
-                <joint name="L1" type="hinge" axis="0 0 1" range="-1.70 1.70" damping="1.0"/>
+                <inertial pos="0.0052 0.0290 0.0993" mass="0.6448" diaginertia="0.001094 0.000570 0.001295"/>
+                <joint name="L1" type="hinge" axis="0.0 0.0 1.0" range="-1.70 1.70" damping="1.0"/>
                 <geom type="mesh" mesh="l1" rgba="0.75 0.75 0.75 1"/>
-                
+
+                <!-- 关节2: L2 -->
                 <body name="L2" pos="0.0234 0.0000 0.1105" quat="0.7071 -0.7071 0.0000 0.0000">
-                    <inertial pos="-0.0094 -0.0784 0.0369" mass="0.5123" diaginertia="0.001322 0.001234 0.000205"/>
-                    <joint name="L2" type="hinge" axis="0 0 1" range="-0.98 1.00" damping="1.0"/>
+                    <inertial pos="-0.0094 -0.0784 0.0369" mass="0.5123" diaginertia="0.001234 0.000205 0.001322"/>
+                    <joint name="L2" type="hinge" axis="0.0 0.0 1.0" range="-0.98 1.00" damping="1.0"/>
                     <geom type="mesh" mesh="l2" rgba="0.75 0.75 0.75 1"/>
-                    
-                    <body name="L3" pos="0.0000 -0.1800 0.0000" quat="0.0000 0.7071 -0.7071 0.0000">
-                        <inertial pos="0.0156 -0.0191 -0.0015" mass="0.5510" diaginertia="0.000816 0.000578 0.000567"/>
-                        <joint name="L3" type="hinge" axis="0 0 -1" range="-2.00 1.30" damping="1.0"/>
+
+                    <!-- 关节3: L3 -->
+                    <body name="L3" pos="0.0000 -0.1800 0.0000" quat="-0.0000 0.7071 -0.7071 0.0000">
+                        <inertial pos="0.0156 -0.0191 -0.0015" mass="0.5510" diaginertia="0.000578 0.000567 0.000816"/>
+                        <joint name="L3" type="hinge" axis="0.0 0.0 -1.0" range="-2.00 1.30" damping="1.0"/>
                         <geom type="mesh" mesh="l3" rgba="0.75 0.75 0.75 1"/>
-                        
+
+                        <!-- 关节4: L4 -->
                         <body name="L4" pos="0.0435 0.0000 0.0000" quat="0.0000 0.0000 0.7071 0.7071">
                             <inertial pos="0.0009 -0.0090 -0.0925" mass="0.3935" diaginertia="0.000372 0.000332 0.000251"/>
-                            <joint name="L4" type="hinge" axis="0 0 -1" range="-2.00 2.00" damping="1.0"/>
+                            <joint name="L4" type="hinge" axis="0.0 0.0 -1.0" range="-2.00 2.00" damping="1.0"/>
                             <geom type="mesh" mesh="l4" rgba="0.75 0.75 0.75 1"/>
-                            
+
+                            <!-- 关节5: L5 -->
                             <body name="L5" pos="0.0000 0.0000 -0.1764" quat="0.7071 -0.7071 0.0000 0.0000">
-                                <inertial pos="0.0000 -0.0062 -0.0010" mass="0.1852" diaginertia="0.000111 0.000109 0.000084"/>
-                                <joint name="L5" type="hinge" axis="0 0 -1" range="-2.10 2.10" damping="1.0"/>
+                                <inertial pos="0.0000 -0.0062 -0.0010" mass="0.1852" diaginertia="0.000109 0.000084 0.000111"/>
+                                <joint name="L5" type="hinge" axis="0.0 0.0 -1.0" range="-2.10 2.10" damping="1.0"/>
                                 <geom type="mesh" mesh="l5" rgba="0.75 0.75 0.75 1"/>
-                                
-                                <!-- L6包含夹爪（固定） -->
+
+                                <!-- 关节6: L6 -->
                                 <body name="L6" pos="0.0000 0.0000 0.0000" quat="0.7071 0.7071 0.0000 0.0000">
-                                    <inertial pos="0.0063 -0.0005 -0.0654" mass="0.1703" diaginertia="0.000123 0.000118 0.000114"/>
-                                    <joint name="L6" type="hinge" axis="0 0 -1" limited="false" damping="0.3"/>
+                                    <inertial pos="0.0063 -0.0005 -0.0554" mass="0.0703" diaginertia="0.000014 0.000018 0.000023"/>
+                                    <joint name="L6" type="hinge" axis="0.0 0.0 -1.0" limited="false" damping="0.3"/>
                                     <geom type="mesh" mesh="l6" rgba="0.75 0.75 0.75 1"/>
-                                    
-                                    <!-- 末端site和摄像头 -->
-                                    <site name="end_effector" pos="0 0 -0.10" size="0.01"/>
-                                    <camera name="gripper_cam" pos="0 -0.1 -0.08" xyaxes="0 0 1 -1 0 0" mode="fixed" fovy="60"/>
+                                    <site name="end_effector" pos="0 0 -0.13" size="0.01"/>
+                                    <!-- 夹爪视角摄像头 -->
+                                    <camera name="gripper_cam" pos="0 -0.1 -0.05" xyaxes="0 0 1 -1 0 0" mode="fixed" fovy="60"/>
+
+                                    <!-- 夹爪（真实STL模型） -->
+                                    <body name="gripper_base" pos="0 0 -0.02">
+                                        <inertial pos="0 0 0" mass="0.1" diaginertia="0.0001 0.0001 0.0001"/>
+                                        <geom type="mesh" mesh="gripper_base" rgba="0.4 0.4 0.4 1"/>
+
+                                        <!-- 左侧夹爪指 -->
+                                        <body name="gripper_left" pos="0 0.01 -0.11">
+                                            <inertial pos="0 0.02 0" mass="0.05" diaginertia="0.00005 0.00005 0.00005"/>
+                                            <joint name="rh_l1" type="slide" axis="0 1 0" range="0 0.03" damping="1.0"/>
+                                            <geom type="mesh" mesh="gripper_jaw" rgba="0.3 0.3 0.3 1"/>
+                                        </body>
+
+                                        <!-- 右侧夹爪指 -->
+                                        <body name="gripper_right" pos="0 -0.01 -0.11" euler="0 0 3.14159">
+                                            <inertial pos="0 0.02 0" mass="0.05" diaginertia="0.00005 0.00005 0.00005"/>
+                                            <joint name="rh_r1" type="slide" axis="0 1 0" range="0 0.03" damping="1.0"/>
+                                            <geom type="mesh" mesh="gripper_jaw" rgba="0.3 0.3 0.3 1"/>
+                                        </body>
+                                    </body>
                                 </body>
                             </body>
                         </body>
@@ -81,19 +125,25 @@
             </body>
         </body>
     </worldbody>
-    
+
     <!-- 执行器 -->
     <actuator>
+        <!-- 机械臂关节 -->
         <position name="L1_motor" joint="L1" kp="100" ctrlrange="-1.70 1.70"/>
         <position name="L2_motor" joint="L2" kp="100" ctrlrange="-0.98 1.00"/>
         <position name="L3_motor" joint="L3" kp="100" ctrlrange="-2.00 1.30"/>
         <position name="L4_motor" joint="L4" kp="80" ctrlrange="-2.00 2.00"/>
         <position name="L5_motor" joint="L5" kp="80" ctrlrange="-2.10 2.10"/>
         <position name="L6_motor" joint="L6" kp="50" ctrlrange="-3.14 3.14"/>
+
+        <!-- 夹爪关节 -->
+        <position name="rh_l1_motor" joint="rh_l1" kp="100" ctrlrange="0 0.03"/>
+        <position name="rh_r1_motor" joint="rh_r1" kp="100" ctrlrange="0 0.03"/>
     </actuator>
-    
+
     <!-- 传感器 -->
     <sensor>
+        <!-- 机械臂关节传感器 -->
         <jointpos name="L1_pos" joint="L1"/>
         <jointpos name="L2_pos" joint="L2"/>
         <jointpos name="L3_pos" joint="L3"/>
@@ -106,5 +156,10 @@
         <jointvel name="L4_vel" joint="L4"/>
         <jointvel name="L5_vel" joint="L5"/>
         <jointvel name="L6_vel" joint="L6"/>
+
+        <!-- 夹爪传感器 -->
+        <jointpos name="rh_l1_pos" joint="rh_l1"/>
+        <jointpos name="rh_r1_pos" joint="rh_r1"/>
     </sensor>
+
 </mujoco>
