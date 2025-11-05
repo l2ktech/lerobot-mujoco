@@ -38,10 +38,14 @@ lerobot-mujoco/
 
 ```python
 import mujoco
+import os
+
+# ⚠️ 重要：MuJoCo需要绝对路径来正确解析includes
+xml_path = './asset/example_scene_parol6.xml'
+full_xml_path = os.path.abspath(os.path.join(os.getcwd(), xml_path))
 
 # 加载完整场景
-xml_path = './asset/example_scene_parol6.xml'
-model = mujoco.MjModel.from_xml_path(xml_path)
+model = mujoco.MjModel.from_xml_path(full_xml_path)
 data = mujoco.MjData(model)
 
 print(f"✅ 场景加载成功！")
@@ -49,6 +53,8 @@ print(f"   总关节数: {model.njnt}")  # 应该是11
 print(f"   总执行器: {model.nu}")    # 应该是8
 print(f"   摄像头数: {model.ncam}")  # 应该是4
 ```
+
+**⚠️ 重要提示**: MuJoCo在解析包含`<include>`标签的XML文件时，必须使用**绝对路径**，否则会出现路径解析错误（如`asset/asset/`路径重复）。上述代码使用`os.path.abspath()`来确保路径正确。
 
 **场景包含：**
 - ✅ 天空和地面（Isaac样式）
@@ -325,6 +331,37 @@ print("✅ 所有检查通过！")
 xml_path = './asset/example_scene_parol6.xml'
 env = SimpleEnv2(xml_path, action_type='joint_angle')
 ```
+
+### Q6: 为什么会出现 `asset/asset/` 路径重复错误？⚠️
+
+**A**: 这是MuJoCo在处理包含`<include>`标签的XML文件时的一个路径解析问题。
+
+**错误示例：**
+```python
+# ❌ 错误：使用相对路径
+model = mujoco.MjModel.from_xml_path('asset/example_scene_parol6.xml')
+# 报错: Error opening file 'asset/asset/objaverse/mug_5/visual/model_normalized_0.obj'
+```
+
+**解决方法：**
+```python
+# ✅ 正确：使用绝对路径
+import os
+xml_path = './asset/example_scene_parol6.xml'
+full_xml_path = os.path.abspath(os.path.join(os.getcwd(), xml_path))
+model = mujoco.MjModel.from_xml_path(full_xml_path)
+```
+
+**原理说明：**
+- MuJoCo在解析XML文件时，会基于文件所在目录解析相对路径
+- 如果传入相对路径（如`asset/example_scene_parol6.xml`），MuJoCo会将其基目录设为`asset/`
+- 当XML文件包含`<include file="./objaverse/..."/>`时，MuJoCo会错误地将路径解析为`asset/asset/objaverse/...`
+- 使用绝对路径可以避免这个问题
+
+**注意：**
+- ✅ 在Jupyter Notebook中使用`SimpleEnv2`时不需要担心这个问题，因为`MuJoCoParserClass`已经自动处理了路径转换
+- ✅ 直接使用`mujoco.MjModel.from_xml_path()`时需要手动转换为绝对路径
+- ✅ 测试脚本`test_parol6_fix.py`演示了正确的加载方法
 
 ## 🎯 下一步
 

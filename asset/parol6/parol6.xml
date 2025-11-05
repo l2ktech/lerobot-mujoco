@@ -17,17 +17,17 @@
 
   <asset>
     <!-- PAROL6机械臂STL网格 -->
-    <mesh name="base_link" file="meshes/base_link.STL" scale="0.001 0.001 0.001"/>
-    <mesh name="L1" file="meshes/L1.STL" scale="0.001 0.001 0.001"/>
-    <mesh name="L2" file="meshes/L2.STL" scale="0.001 0.001 0.001"/>
-    <mesh name="L3" file="meshes/L3.STL" scale="0.001 0.001 0.001"/>
-    <mesh name="L4" file="meshes/L4.STL" scale="0.001 0.001 0.001"/>
-    <mesh name="L5" file="meshes/L5.STL" scale="0.001 0.001 0.001"/>
-    <mesh name="L6" file="meshes/L6.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="base_link" file="parol6/meshes/base_link.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="L1" file="parol6/meshes/L1.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="L2" file="parol6/meshes/L2.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="L3" file="parol6/meshes/L3.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="L4" file="parol6/meshes/L4.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="L5" file="parol6/meshes/L5.STL" scale="0.001 0.001 0.001"/>
+    <mesh name="L6" file="parol6/meshes/L6.STL" scale="0.001 0.001 0.001"/>
 
     <!-- 夹爪STL网格 -->
-    <mesh name="gripper_base" file="meshes/gripper_base.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="gripper_jaw" file="meshes/gripper_jaw.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="gripper_base" file="parol6/meshes/gripper_base.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="gripper_jaw" file="parol6/meshes/gripper_jaw.stl" scale="0.001 0.001 0.001"/>
   </asset>
 
   <worldbody>
